@@ -81,9 +81,14 @@ function calculateClickedScore() {
 		}
 	}  
 
+	let initialScore = calculateScore(scoreCounter);
 
-
-	document.getElementById("score").textContent = calculateScore(scoreCounter);
+	if(initialScore != document.getElementById("score").textContent){
+		document.getElementById("score").textContent = Number(document.getElementById("score").textContent) + initialScore;
+	}
+	// This is an issue. Unclicking doesn't subtract, but I was trying to maintain the functionality
+	// wherein the game calculates a temporary score for the user. However, based on clicked, the 
+	// score was being recalculated when I needed the value to persist. 
 }
 
 // Calculating score for die
