@@ -65,12 +65,8 @@ body{
 	float: left;
 	width:20%;
 }
-.roll{
-}
 .roll:hover{
 	background-color: #81100c;
-}
-.bank{
 }
 .bank:hover{
 	background-color: #81100c;
