@@ -6,6 +6,7 @@ function initializeDice(){
 		diceArr[i].id = "die" + (i + 1);
 		diceArr[i].value = i + 1;
 		diceArr[i].clicked = 0;
+		diceArr[i].removed = false; 
 	}
 }
 
@@ -14,14 +15,18 @@ function rollDice(){
 	for(var i = 0; i < 6; i++){
 		if(diceArr[i].clicked === 0){
 			diceArr[i].value = Math.floor((Math.random() * 6) + 1);
-		} 
+		} else {
+			diceArr[i].removed = true; 
+		}
 	}
 	updateDiceImg();
 
 	let scoreCounter = {}; 
 
 	for(var diceObject of diceArr){
-		scoreCounter[diceObject.value] = (scoreCounter[diceObject.value] + 1) || 1;
+		if(!diceObject.removed){
+			scoreCounter[diceObject.value] = (scoreCounter[diceObject.value] + 1) || 1;
+		}
 	} 
 	
 	let score = calculateScore(scoreCounter);
@@ -30,7 +35,14 @@ function rollDice(){
 
 	if(score === 0){
 		alert("Farkle! Try again.")
+		initializeDice();
+		updateDiceImg(); 
+		for(var i = 1; i < 7; i++){
+			document.getElementById("die" + i).classList.remove("transparent");
+		}
+		document.getElementById("score").textContent = null; 
 	}
+
 }
 
 /*Updating images of dice given values of rollDice*/
@@ -45,12 +57,15 @@ function updateDiceImg(){
 function diceClick(img){
 	var i = img.getAttribute("data-number");
 
-	img.classList.toggle("transparent");
+	// img.classList.toggle("transparent");
+
 	if(diceArr[i].clicked === 0){
 		diceArr[i].clicked = 1;
+		img.classList.add("transparent");
 	}
 	else{
 		diceArr[i].clicked = 0;
+		img.classList.remove("transparent");
 	}
 	calculateClickedScore(); 
 }
@@ -61,10 +76,12 @@ function calculateClickedScore() {
 	let scoreCounter = {}; 
 
 	for(var diceObject of diceArr){
-		if(diceObject.clicked === 1) {
+		if(diceObject.clicked === 1 && !diceObject.removed) {
 			scoreCounter[diceObject.value] = (scoreCounter[diceObject.value] + 1) || 1;
 		}
 	}  
+
+
 
 	document.getElementById("score").textContent = calculateScore(scoreCounter);
 }
@@ -155,8 +172,6 @@ function testScore(dice) {
 
 
 
-// I assumed getting 2 sets of 3 would double that score. 
-// My next steps were to handle banking a score to store the value but I had difficulty with the logic.
-// I wanted to add gameplay logic that checked for a Farkle, but because I calculated the score based on which die 
-// was clicked, I struggled to also calculate the values of all die to check if score === 0. 
+
 // I wanted to call my bankScore function and store the chosen score value while also resetting the dice with initializeDice. 
+
