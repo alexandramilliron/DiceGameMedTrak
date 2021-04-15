@@ -17,7 +17,20 @@ function rollDice(){
 		} 
 	}
 	updateDiceImg();
-	calculateScore(); 	
+
+	let scoreCounter = {}; 
+
+	for(var diceObject of diceArr){
+		scoreCounter[diceObject.value] = (scoreCounter[diceObject.value] + 1) || 1;
+	} 
+	
+	let score = calculateScore(scoreCounter);
+
+	document.getElementById("possible-score").textContent = score;
+
+	if(score === 0){
+		alert("Farkle! Try again.")
+	}
 }
 
 /*Updating images of dice given values of rollDice*/
@@ -39,19 +52,27 @@ function diceClick(img){
 	else{
 		diceArr[i].clicked = 0;
 	}
-	calculateScore(); 
+	calculateClickedScore(); 
 }
 
 // Calculating score for clicked die
-function calculateScore() {
-	let score = 0; 
-	let scoreCounter = {};
-	
+function calculateClickedScore() {
+
+	let scoreCounter = {}; 
+
 	for(var diceObject of diceArr){
 		if(diceObject.clicked === 1) {
 			scoreCounter[diceObject.value] = (scoreCounter[diceObject.value] + 1) || 1;
 		}
-	} 
+	}  
+
+	document.getElementById("score").textContent = calculateScore(scoreCounter);
+}
+
+// Calculating score for die
+function calculateScore(scoreCounter) {
+	
+	let score = 0; 
 
 	// Handling special cases for 1
 	if(scoreCounter[1] === 6) {
@@ -95,9 +116,10 @@ function calculateScore() {
 
 	score += calculateNumber(6, scoreCounter);
 
-	document.getElementById("score").textContent = score;
+
 
 	return score;
+
 }
 
 function calculateNumber(num, scoreCounter) {
