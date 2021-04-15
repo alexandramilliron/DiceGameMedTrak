@@ -7,9 +7,11 @@ body{
 	font-family: arial;
 }
 .row{
-	margin:auto;
+	margin: auto;
 	width: 800px;
-	max-width: 100%;
+	display: flex;
+    flex-flow: column;
+    align-items: center;
 }
 .header{
 	height: 100px;
@@ -19,6 +21,14 @@ body{
 	line-height: 100px;
 	font-family: arial;
 	color: #fff;
+}
+.scoretext {
+	font-family: arial;
+	color: #fff;
+	text-align: center;
+	font-size: 30px;
+	padding-top: 10px; 
+	padding-bottom: 3px; 
 }
 .dice{
 	max-width: 520px;
@@ -46,18 +56,24 @@ body{
   font-size: 16px;
   margin-left: 25px;
 }
+.buttonrow{
+	display: flex;
+    flex-flow: row;
+    justify-content: center; 
+}
 .column{
 	float: left;
 	width:20%;
-	margin-left: 160px;
 }
 .roll{
 }
 .roll:hover{
+	background-color: #81100c;
 }
 .bank{
 }
 .bank:hover{
+	background-color: #81100c;
 }
 .transparent{
 	/*For dice that are selected*/
